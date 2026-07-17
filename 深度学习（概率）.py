@@ -18,3 +18,14 @@ counts = multinomial.Multinomial(10,fair_probs).sample((500,))
 cum_counts = counts.cumsum(dim=0) # 累计求和：把当前位置以及之前所有元素累加，作为对应输出位置的数值
 """[1,2,3,4].cumsum = [1,3,6,10]"""
 
+estimates = cum_counts / cum_counts.sum(dim=1,keepdims=True)
+d2l.set_figsize((12,9))
+for i in range(6):
+    d2l.plt.plot(estimates[:,i].numpy(),
+                 label=("P(die=" + str(i + 1) + ")"))
+d2l.plt.axhline(y=0.167,color='black',linestyle='dashed')
+d2l.plt.gca().set_xlabel('experiments')
+d2l.plt.gca().set_ylabel('Estimated probability')
+d2l.plt.show()
+
+
